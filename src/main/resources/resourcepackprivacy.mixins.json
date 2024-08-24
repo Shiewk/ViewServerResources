@@ -8,7 +8,8 @@
   "client": [
     "AccessorConfirmServerResourcePackScreen",
     "AccessorConfirmServerResourcePackScreenPack",
-    "MixinClientCommonNetworkHandler"
+    "MixinClientCommonNetworkHandler",
+    "MixinServerResourcePackLoader"
   ],
   "injectors": {
     "defaultRequire": 1

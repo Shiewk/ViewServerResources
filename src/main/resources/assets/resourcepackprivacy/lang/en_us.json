@@ -8,5 +8,6 @@
   "gui.resourcepackprivacy.alwaysURLs": "Always accept these URLs",
   "gui.resourcepackprivacy.alwaysHost": "Always accept packs from %s",
   "gui.resourcepackprivacy.viewURL": "View download URL",
-  "gui.resourcepackprivacy.viewURLs": "View download URLs"
+  "gui.resourcepackprivacy.viewURLs": "View download URLs",
+  "gui.resourcepackprivacy.downloading": "Downloading server resource pack from %s"
 }
