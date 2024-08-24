@@ -1,0 +1,18 @@
+{
+  "gui.viewserverresources.confirmScreen": "Serverressourcenpaket bestätigen",
+  "gui.viewserverresources.accept": "Einmal annehmen",
+  "gui.viewserverresources.decline": "Einmal ablehnen",
+  "gui.viewserverresources.url": "Das Ressourcenpaket wird heruntergeladen von: %s",
+  "gui.viewserverresources.urls": "Die Ressourcenpakete werden heruntergeladen von: %s",
+  "gui.viewserverresources.alwaysURL": "Diese URL immer akzeptieren",
+  "gui.viewserverresources.alwaysURLs": "Diese URLs immer akzeptieren",
+  "gui.viewserverresources.alwaysHost": "Pakete von %s immer akzeptieren",
+  "gui.viewserverresources.viewURL": "Download-URL ansehen",
+  "gui.viewserverresources.viewURLs": "Download-URLs ansehen",
+  "gui.viewserverresources.downloading": "Serverressourcenpaket wird heruntergeladen von %s",
+  "gui.viewserverresources.config": "Einstellungen",
+  "viewserverresources.settings": "ViewServerResources Einstellungen",
+  "viewserverresources.settings.whitelistedURLs": "Erlaubte URLs verwalten",
+  "viewserverresources.settings.whitelistedHosts": "Erlaubte Hosts verwalten",
+  "viewserverresources.settings.broadcast": "Heruntergeladene URLs im Chat anzeigen: %s"
+}
