@@ -6,7 +6,9 @@
   "mixins": [
   ],
   "client": [
-
+    "AccessorConfirmServerResourcePackScreen",
+    "AccessorConfirmServerResourcePackScreenPack",
+    "MixinClientCommonNetworkHandler"
   ],
   "injectors": {
     "defaultRequire": 1
