@@ -47,7 +47,7 @@ public class ScreenListener implements ScreenEvents.AfterInit {
 
             adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.viewserverresources.viewURL" : "gui.viewserverresources.viewURLs"), btn -> viewURLs(client, screen, infos)));
             adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.viewserverresources.alwaysURL" : "gui.viewserverresources.alwaysURLs"), btn -> whitelistURLsAndAccept(btn, screen, infos)));
-            adder.add(createLargeButton(Text.translatable("gui.resourcepackprivacy.alwaysHost", Text.literal(infos.getFirst().url().getHost()).withColor(Color.GREEN.getRGB())), btn -> whitelistHostsAndAccept(btn, screen, infos)), 2);
+            adder.add(createLargeButton(Text.translatable("gui.viewserverresources.alwaysHost", Text.literal(infos.getFirst().url().getHost()).withColor(Color.GREEN.getRGB())), btn -> whitelistHostsAndAccept(btn, screen, infos)), 2);
 
             gw.refreshPositions();
             SimplePositioningWidget.setPos(gw, 0, 0, scaledWidth, scaledHeight, 0.5F, 0.85F);

@@ -15,7 +15,7 @@ public class ViewResourceURLsScreen extends Screen {
     private final Screen parent;
     private final List<ScreenListener.PackInfo> infos;
     public ViewResourceURLsScreen(Screen parent, List<ScreenListener.PackInfo> infos) {
-        super(Text.translatable("gui.resourcepackprivacy.viewURL"));
+        super(Text.translatable("gui.viewserverresources.viewURL"));
         this.parent = parent;
         this.infos = infos;
     }

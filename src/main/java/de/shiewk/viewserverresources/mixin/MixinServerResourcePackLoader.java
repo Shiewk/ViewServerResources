@@ -19,7 +19,7 @@ public class MixinServerResourcePackLoader {
     @Inject(at = @At("HEAD"), method = "addResourcePack(Ljava/util/UUID;Ljava/net/URL;Ljava/lang/String;)V")
     public void onResourcePackAdd(UUID id, URL url, String hash, CallbackInfo ci){
         if (ViewServerResourcesClient.isBroadcastDownloads()){
-            ChatAnnouncer.announce(Text.translatable("gui.resourcepackprivacy.downloading",
+            ChatAnnouncer.announce(Text.translatable("gui.viewserverresources.downloading",
                             Text.literal(url.toString()))
                     .withColor(Color.ORANGE.getRGB())
             );

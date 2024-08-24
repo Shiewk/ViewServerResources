@@ -18,7 +18,7 @@ public class ViewServerResources extends Screen {
     private static final int buttonWidth = 192;
     private boolean cfgDirty = false;
     public ViewServerResources(Screen parent) {
-        super(Text.translatable("gui.resourcepackprivacy.config"));
+        super(Text.translatable("gui.viewserverresources.config"));
         this.parent = parent;
     }
 
@@ -34,7 +34,7 @@ public class ViewServerResources extends Screen {
     @Override
     protected void init() {
         {
-            final TextWidget tw = new TextWidget(Text.translatable("resourcepackprivacy.settings"), textRenderer);
+            final TextWidget tw = new TextWidget(Text.translatable("viewserverresources.settings"), textRenderer);
             tw.setPosition(width / 2 - tw.getWidth() / 2, 10);
             addDrawableChild(tw);
         }
@@ -44,23 +44,23 @@ public class ViewServerResources extends Screen {
             final GridWidget.Adder adder = gw.createAdder(2);
             adder.add(createToggleableLargeButton(
                     ViewServerResourcesClient.isBroadcastDownloads(),
-                    bl -> Text.translatable("resourcepackprivacy.settings.broadcast", Text.translatable(bl ? "gui.yes" : "gui.no")).withColor(bl ? new Color(100, 255, 100).getRGB() : new Color(255, 100, 100).getRGB()),
+                    bl -> Text.translatable("viewserverresources.settings.broadcast", Text.translatable(bl ? "gui.yes" : "gui.no")).withColor(bl ? new Color(100, 255, 100).getRGB() : new Color(255, 100, 100).getRGB()),
                     bl -> {
                         ViewServerResourcesClient.setBroadcastDownloads(bl);
                         cfgDirty = true;
                     }
             ), 2);
-            adder.add(createButton(Text.translatable("resourcepackprivacy.settings.whitelistedURLs"), btn -> {
+            adder.add(createButton(Text.translatable("viewserverresources.settings.whitelistedURLs"), btn -> {
                 btn.active = false;
                 assert client != null;
                 cfgDirty = true;
-                client.setScreen(new ManageListScreen<>(Text.translatable("resourcepackprivacy.settings.whitelistedURLs"), this, ViewServerResourcesClient.getWhitelistedURLs()));
+                client.setScreen(new ManageListScreen<>(Text.translatable("viewserverresources.settings.whitelistedURLs"), this, ViewServerResourcesClient.getWhitelistedURLs()));
             }));
-            adder.add(createButton(Text.translatable("resourcepackprivacy.settings.whitelistedHosts"), btn -> {
+            adder.add(createButton(Text.translatable("viewserverresources.settings.whitelistedHosts"), btn -> {
                 btn.active = false;
                 assert client != null;
                 cfgDirty = true;
-                client.setScreen(new ManageListScreen<>(Text.translatable("resourcepackprivacy.settings.whitelistedHosts"), this, ViewServerResourcesClient.getWhitelistedHosts()));
+                client.setScreen(new ManageListScreen<>(Text.translatable("viewserverresources.settings.whitelistedHosts"), this, ViewServerResourcesClient.getWhitelistedHosts()));
             }));
             gw.refreshPositions();
             SimplePositioningWidget.setPos(gw, 0, 0, this.width, this.height, 0.5F, 0.5f);
