@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "de.shiewk.resourcepackprivacy.mixin",
+  "package": "de.shiewk.viewserverresources.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [

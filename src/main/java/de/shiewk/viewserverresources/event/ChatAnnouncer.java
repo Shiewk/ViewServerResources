@@ -1,4 +1,4 @@
-package de.shiewk.resourcepackprivacy.event;
+package de.shiewk.viewserverresources.event;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

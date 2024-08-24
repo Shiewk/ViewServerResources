@@ -1,6 +1,6 @@
-package de.shiewk.resourcepackprivacy.screen;
+package de.shiewk.viewserverresources.screen;
 
-import de.shiewk.resourcepackprivacy.event.ScreenListener;
+import de.shiewk.viewserverresources.event.ScreenListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.MultilineTextWidget;
@@ -43,6 +43,6 @@ public class ViewResourceURLsScreen extends Screen {
         for (ScreenListener.PackInfo info : infos) {
             msg = msg.append(Text.literal("\n"+info.url()));
         }
-        return Text.translatable(infos.size() == 1 ? "gui.resourcepackprivacy.url" : "gui.resourcepackprivacy.urls", msg).withColor(Color.GREEN.getRGB());
+        return Text.translatable(infos.size() == 1 ? "gui.viewserverresources.url" : "gui.viewserverresources.urls", msg).withColor(Color.GREEN.getRGB());
     }
 }

@@ -1,4 +1,4 @@
-package de.shiewk.resourcepackprivacy.screen.elements;
+package de.shiewk.viewserverresources.screen.elements;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.font.TextRenderer;

@@ -1,4 +1,4 @@
-package de.shiewk.resourcepackprivacy.client;
+package de.shiewk.viewserverresources.client;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -6,9 +6,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
-import de.shiewk.resourcepackprivacy.ResourcePackPrivacy;
-import de.shiewk.resourcepackprivacy.event.ChatAnnouncer;
-import de.shiewk.resourcepackprivacy.event.ScreenListener;
+import de.shiewk.viewserverresources.ViewServerResourcesMod;
+import de.shiewk.viewserverresources.event.ChatAnnouncer;
+import de.shiewk.viewserverresources.event.ScreenListener;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -20,7 +20,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.List;
 
-public class ResourcePackPrivacyClient implements ClientModInitializer {
+public class ViewServerResourcesClient implements ClientModInitializer {
 
     private static final ObjectArrayList<String> whitelistedURLs = new ObjectArrayList<>();
     private static final ObjectArrayList<String> whitelistedHosts = new ObjectArrayList<>();
@@ -30,10 +30,10 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
 
     public static boolean allowedURL(URL uRL) {
         if (whitelistedURLs.contains(uRL.toString())){
-            ResourcePackPrivacy.LOGGER.info("URL {} is whitelisted", uRL);
+            ViewServerResourcesMod.LOGGER.info("URL {} is whitelisted", uRL);
             return true;
         } else if (whitelistedHosts.contains(uRL.getHost())){
-            ResourcePackPrivacy.LOGGER.info("Host {} is whitelisted", uRL.getHost());
+            ViewServerResourcesMod.LOGGER.info("Host {} is whitelisted", uRL.getHost());
             return true;
         }
         return false;
@@ -41,7 +41,7 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
 
     public static void addWhitelistURL(URL url){
         final String urls = url.toString();
-        ResourcePackPrivacy.LOGGER.info("Whitelist url {}", urls);
+        ViewServerResourcesMod.LOGGER.info("Whitelist url {}", urls);
         if (!whitelistedURLs.contains(urls)){
             whitelistedURLs.add(urls);
         }
@@ -49,14 +49,14 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
 
     public static void addWhitelistHost(URL url){
         final String h = url.getHost();
-        ResourcePackPrivacy.LOGGER.info("Whitelist host {}", h);
+        ViewServerResourcesMod.LOGGER.info("Whitelist host {}", h);
         if (!whitelistedHosts.contains(h)){
             whitelistedHosts.add(h);
         }
     }
 
     public static void loadConfig(){
-        ResourcePackPrivacy.LOGGER.info("Loading config");
+        ViewServerResourcesMod.LOGGER.info("Loading config");
         try (FileReader fr = new FileReader(whitelistFile)){
             final JsonObject cfg = gson.fromJson(fr, JsonObject.class);
             final JsonObject whitelist = cfg.get("whitelist").getAsJsonObject();
@@ -73,14 +73,14 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
             final JsonElement bdl = cfg.get("broadcastDownloads");
             broadcastDownloads = bdl == null || !bdl.isJsonPrimitive() || bdl.getAsBoolean();
         } catch (FileNotFoundException e) {
-            ResourcePackPrivacy.LOGGER.warn("Config file not found");
+            ViewServerResourcesMod.LOGGER.warn("Config file not found");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void saveConfig() {
-        ResourcePackPrivacy.LOGGER.info("Saving config");
+        ViewServerResourcesMod.LOGGER.info("Saving config");
         try (FileWriter fw = new FileWriter(whitelistFile)) {
             final JsonObject cfg = getConfigObject();
 
@@ -89,7 +89,7 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
             }
 
         } catch (IOException e) {
-            ResourcePackPrivacy.logThrowable(e);
+            ViewServerResourcesMod.logThrowable(e);
         }
     }
 
@@ -127,12 +127,12 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
     }
 
     public static void setBroadcastDownloads(boolean broadcastDownloads) {
-        ResourcePackPrivacyClient.broadcastDownloads = broadcastDownloads;
+        ViewServerResourcesClient.broadcastDownloads = broadcastDownloads;
     }
 
     @Override
     public void onInitializeClient() {
-        whitelistFile = new File(MinecraftClient.getInstance().runDirectory.getPath() + "/resourcepackprivacy.json");
+        whitelistFile = new File(MinecraftClient.getInstance().runDirectory.getPath() + "/viewserverresources.json");
         ScreenEvents.AFTER_INIT.register(new ScreenListener());
         ClientTickEvents.END_CLIENT_TICK.register(new ChatAnnouncer());
         loadConfig();

@@ -1,6 +1,6 @@
-package de.shiewk.resourcepackprivacy.screen;
+package de.shiewk.viewserverresources.screen;
 
-import de.shiewk.resourcepackprivacy.screen.elements.ManageListWidget;
+import de.shiewk.viewserverresources.screen.elements.ManageListWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 

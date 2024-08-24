@@ -1,10 +1,10 @@
-package de.shiewk.resourcepackprivacy.event;
+package de.shiewk.viewserverresources.event;
 
-import de.shiewk.resourcepackprivacy.client.ResourcePackPrivacyClient;
-import de.shiewk.resourcepackprivacy.mixin.AccessorConfirmScreen;
-import de.shiewk.resourcepackprivacy.mixin.AccessorConfirmServerResourcePackScreen;
-import de.shiewk.resourcepackprivacy.mixin.AccessorConfirmServerResourcePackScreenPack;
-import de.shiewk.resourcepackprivacy.screen.ViewResourceURLsScreen;
+import de.shiewk.viewserverresources.client.ViewServerResourcesClient;
+import de.shiewk.viewserverresources.mixin.AccessorConfirmScreen;
+import de.shiewk.viewserverresources.mixin.AccessorConfirmServerResourcePackScreen;
+import de.shiewk.viewserverresources.mixin.AccessorConfirmServerResourcePackScreenPack;
+import de.shiewk.viewserverresources.screen.ViewResourceURLsScreen;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.MinecraftClient;
@@ -45,8 +45,8 @@ public class ScreenListener implements ScreenEvents.AfterInit {
                 adder.add(buttons.removeFirst());
             }
 
-            adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.resourcepackprivacy.viewURL" : "gui.resourcepackprivacy.viewURLs"), btn -> viewURLs(client, screen, infos)));
-            adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.resourcepackprivacy.alwaysURL" : "gui.resourcepackprivacy.alwaysURLs"), btn -> whitelistURLsAndAccept(btn, screen, infos)));
+            adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.viewserverresources.viewURL" : "gui.viewserverresources.viewURLs"), btn -> viewURLs(client, screen, infos)));
+            adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.viewserverresources.alwaysURL" : "gui.viewserverresources.alwaysURLs"), btn -> whitelistURLsAndAccept(btn, screen, infos)));
             adder.add(createLargeButton(Text.translatable("gui.resourcepackprivacy.alwaysHost", Text.literal(infos.getFirst().url().getHost()).withColor(Color.GREEN.getRGB())), btn -> whitelistHostsAndAccept(btn, screen, infos)), 2);
 
             gw.refreshPositions();
@@ -58,9 +58,9 @@ public class ScreenListener implements ScreenEvents.AfterInit {
     private void whitelistURLsAndAccept(ButtonWidget btn, Screen screen, List<PackInfo> infos){
         btn.active = false;
         for (PackInfo info : infos) {
-            ResourcePackPrivacyClient.addWhitelistURL(info.url());
+            ViewServerResourcesClient.addWhitelistURL(info.url());
         }
-        ResourcePackPrivacyClient.saveConfig();
+        ViewServerResourcesClient.saveConfig();
         accept(screen);
     }
 
@@ -71,9 +71,9 @@ public class ScreenListener implements ScreenEvents.AfterInit {
     private void whitelistHostsAndAccept(ButtonWidget btn, Screen screen, List<PackInfo> infos){
         btn.active = false;
         for (PackInfo info : infos) {
-            ResourcePackPrivacyClient.addWhitelistHost(info.url());
+            ViewServerResourcesClient.addWhitelistHost(info.url());
         }
-        ResourcePackPrivacyClient.saveConfig();
+        ViewServerResourcesClient.saveConfig();
         accept(screen);
     }
 

@@ -1,4 +1,4 @@
-package de.shiewk.resourcepackprivacy.mixin;
+package de.shiewk.viewserverresources.mixin;
 
 
 import org.spongepowered.asm.mixin.Mixin;

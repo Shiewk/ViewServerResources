@@ -11,7 +11,7 @@
   "gui.resourcepackprivacy.viewURLs": "View download URLs",
   "gui.resourcepackprivacy.downloading": "Downloading server resource pack from %s",
   "gui.resourcepackprivacy.config": "Config",
-  "resourcepackprivacy.settings": "ResourcePackPrivacy Settings",
+  "resourcepackprivacy.settings": "ViewServerResources Settings",
   "resourcepackprivacy.settings.whitelistedURLs": "Manage allowed URLs",
   "resourcepackprivacy.settings.whitelistedHosts": "Manage allowed pack hosts",
   "resourcepackprivacy.settings.broadcast": "Show downloaded pack URLs in chat: %s"

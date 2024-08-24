@@ -1,6 +1,6 @@
-package de.shiewk.resourcepackprivacy.screen;
+package de.shiewk.viewserverresources.screen;
 
-import de.shiewk.resourcepackprivacy.client.ResourcePackPrivacyClient;
+import de.shiewk.viewserverresources.client.ViewServerResourcesClient;
 import it.unimi.dsi.fastutil.booleans.Boolean2ObjectFunction;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.gui.screen.Screen;
@@ -13,11 +13,11 @@ import net.minecraft.text.Text;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ResourcePackPrivacyConfigScreen extends Screen {
+public class ViewServerResources extends Screen {
     private final Screen parent;
     private static final int buttonWidth = 192;
     private boolean cfgDirty = false;
-    public ResourcePackPrivacyConfigScreen(Screen parent) {
+    public ViewServerResources(Screen parent) {
         super(Text.translatable("gui.resourcepackprivacy.config"));
         this.parent = parent;
     }
@@ -25,7 +25,7 @@ public class ResourcePackPrivacyConfigScreen extends Screen {
     @Override
     public void close() {
         if (cfgDirty){
-            ResourcePackPrivacyClient.saveConfig();
+            ViewServerResourcesClient.saveConfig();
         }
         assert client != null;
         client.setScreen(parent);
@@ -43,10 +43,10 @@ public class ResourcePackPrivacyConfigScreen extends Screen {
             gw.getMainPositioner().margin(4, 4, 4, 0);
             final GridWidget.Adder adder = gw.createAdder(2);
             adder.add(createToggleableLargeButton(
-                    ResourcePackPrivacyClient.isBroadcastDownloads(),
+                    ViewServerResourcesClient.isBroadcastDownloads(),
                     bl -> Text.translatable("resourcepackprivacy.settings.broadcast", Text.translatable(bl ? "gui.yes" : "gui.no")).withColor(bl ? new Color(100, 255, 100).getRGB() : new Color(255, 100, 100).getRGB()),
                     bl -> {
-                        ResourcePackPrivacyClient.setBroadcastDownloads(bl);
+                        ViewServerResourcesClient.setBroadcastDownloads(bl);
                         cfgDirty = true;
                     }
             ), 2);
@@ -54,13 +54,13 @@ public class ResourcePackPrivacyConfigScreen extends Screen {
                 btn.active = false;
                 assert client != null;
                 cfgDirty = true;
-                client.setScreen(new ManageListScreen<>(Text.translatable("resourcepackprivacy.settings.whitelistedURLs"), this, ResourcePackPrivacyClient.getWhitelistedURLs()));
+                client.setScreen(new ManageListScreen<>(Text.translatable("resourcepackprivacy.settings.whitelistedURLs"), this, ViewServerResourcesClient.getWhitelistedURLs()));
             }));
             adder.add(createButton(Text.translatable("resourcepackprivacy.settings.whitelistedHosts"), btn -> {
                 btn.active = false;
                 assert client != null;
                 cfgDirty = true;
-                client.setScreen(new ManageListScreen<>(Text.translatable("resourcepackprivacy.settings.whitelistedHosts"), this, ResourcePackPrivacyClient.getWhitelistedHosts()));
+                client.setScreen(new ManageListScreen<>(Text.translatable("resourcepackprivacy.settings.whitelistedHosts"), this, ViewServerResourcesClient.getWhitelistedHosts()));
             }));
             gw.refreshPositions();
             SimplePositioningWidget.setPos(gw, 0, 0, this.width, this.height, 0.5F, 0.5f);

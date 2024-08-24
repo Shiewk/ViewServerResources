@@ -1,4 +1,4 @@
-package de.shiewk.resourcepackprivacy.mixin;
+package de.shiewk.viewserverresources.mixin;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.gui.screen.ConfirmScreen;
