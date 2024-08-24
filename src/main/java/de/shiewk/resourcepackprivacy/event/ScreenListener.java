@@ -1,24 +1,24 @@
 package de.shiewk.resourcepackprivacy.event;
 
-import de.shiewk.resourcepackprivacy.ResourcePackPrivacy;
+import de.shiewk.resourcepackprivacy.client.ResourcePackPrivacyClient;
+import de.shiewk.resourcepackprivacy.mixin.AccessorConfirmScreen;
 import de.shiewk.resourcepackprivacy.mixin.AccessorConfirmServerResourcePackScreen;
 import de.shiewk.resourcepackprivacy.mixin.AccessorConfirmServerResourcePackScreenPack;
-import de.shiewk.resourcepackprivacy.mixin.MixinClientCommonNetworkHandler;
 import de.shiewk.resourcepackprivacy.screen.ViewResourceURLsScreen;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.widget.GridWidget;
+import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.client.network.ClientCommonNetworkHandler;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +46,35 @@ public class ScreenListener implements ScreenEvents.AfterInit {
             }
 
             adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.resourcepackprivacy.viewURL" : "gui.resourcepackprivacy.viewURLs"), btn -> viewURLs(client, screen, infos)));
-            adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.resourcepackprivacy.alwaysURL" : "gui.resourcepackprivacy.alwaysURLs"), btn -> btn.active = false));
-            adder.add(createLargeButton(Text.translatable("gui.resourcepackprivacy.alwaysHost", Text.literal(infos.getFirst().url().getHost()).withColor(Color.GREEN.getRGB())), btn -> btn.active = false), 2);
+            adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.resourcepackprivacy.alwaysURL" : "gui.resourcepackprivacy.alwaysURLs"), btn -> whitelistURLsAndAccept(btn, screen, infos)));
+            adder.add(createLargeButton(Text.translatable("gui.resourcepackprivacy.alwaysHost", Text.literal(infos.getFirst().url().getHost()).withColor(Color.GREEN.getRGB())), btn -> whitelistHostsAndAccept(btn, screen, infos)), 2);
 
             gw.refreshPositions();
-            SimplePositioningWidget.setPos(gw, 0, 0, scaledWidth, scaledHeight, 0.5F, 0.875F);
+            SimplePositioningWidget.setPos(gw, 0, 0, scaledWidth, scaledHeight, 0.5F, 0.85F);
             gw.forEachChild(buttons::add);
         }
+    }
+
+    private void whitelistURLsAndAccept(ButtonWidget btn, Screen screen, List<PackInfo> infos){
+        btn.active = false;
+        for (PackInfo info : infos) {
+            ResourcePackPrivacyClient.addWhitelistURL(info.url());
+        }
+        ResourcePackPrivacyClient.saveConfig();
+        accept(screen);
+    }
+
+    private void accept(Screen screen){
+        ((AccessorConfirmScreen) screen).getCallback().accept(true);
+    }
+
+    private void whitelistHostsAndAccept(ButtonWidget btn, Screen screen, List<PackInfo> infos){
+        btn.active = false;
+        for (PackInfo info : infos) {
+            ResourcePackPrivacyClient.addWhitelistHost(info.url());
+        }
+        ResourcePackPrivacyClient.saveConfig();
+        accept(screen);
     }
 
     private void viewURLs(MinecraftClient client, Screen screen, List<PackInfo> infos) {

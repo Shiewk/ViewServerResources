@@ -3,9 +3,9 @@
   "minVersion": "0.8",
   "package": "de.shiewk.resourcepackprivacy.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [
-  ],
+  "mixins": [],
   "client": [
+    "AccessorConfirmScreen",
     "AccessorConfirmServerResourcePackScreen",
     "AccessorConfirmServerResourcePackScreenPack",
     "MixinClientCommonNetworkHandler",
