@@ -9,5 +9,9 @@
   "gui.resourcepackprivacy.alwaysHost": "Always accept packs from %s",
   "gui.resourcepackprivacy.viewURL": "View download URL",
   "gui.resourcepackprivacy.viewURLs": "View download URLs",
-  "gui.resourcepackprivacy.downloading": "Downloading server resource pack from %s"
+  "gui.resourcepackprivacy.downloading": "Downloading server resource pack from %s",
+  "gui.resourcepackprivacy.config": "Config",
+  "resourcepackprivacy.settings": "ResourcePackPrivacy Settings",
+  "resourcepackprivacy.settings.whitelistedURLs": "Manage allowed URLs",
+  "resourcepackprivacy.settings.whitelistedHosts": "Manage allowed pack hosts"
 }

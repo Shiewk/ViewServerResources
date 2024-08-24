@@ -15,6 +15,9 @@
     ],
     "main": [
       "de.shiewk.resourcepackprivacy.ResourcePackPrivacy"
+    ],
+    "modmenu": [
+      "de.shiewk.resourcepackprivacy.client.ModMenuConfig"
     ]
   },
   "mixins": [

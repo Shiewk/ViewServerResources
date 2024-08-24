@@ -17,6 +17,7 @@ import net.minecraft.client.MinecraftClient;
 
 import java.io.*;
 import java.net.URL;
+import java.util.List;
 
 public class ResourcePackPrivacyClient implements ClientModInitializer {
 
@@ -100,6 +101,14 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
         } catch (IOException e) {
             ResourcePackPrivacy.logThrowable(e);
         }
+    }
+
+    public static List<String> getWhitelistedURLs() {
+        return whitelistedURLs;
+    }
+
+    public static List<String> getWhitelistedHosts() {
+        return whitelistedHosts;
     }
 
     @Override
