@@ -1,5 +1,6 @@
 package de.shiewk.resourcepackprivacy.mixin;
 
+import de.shiewk.resourcepackprivacy.client.ResourcePackPrivacyClient;
 import de.shiewk.resourcepackprivacy.event.ChatAnnouncer;
 import net.minecraft.client.resource.server.ServerResourcePackLoader;
 import net.minecraft.text.Text;
@@ -17,9 +18,11 @@ public class MixinServerResourcePackLoader {
 
     @Inject(at = @At("HEAD"), method = "addResourcePack(Ljava/util/UUID;Ljava/net/URL;Ljava/lang/String;)V")
     public void onResourcePackAdd(UUID id, URL url, String hash, CallbackInfo ci){
-        ChatAnnouncer.announce(Text.translatable("gui.resourcepackprivacy.downloading",
-                Text.literal(url.toString()))
-                .withColor(Color.ORANGE.getRGB())
-        );
+        if (ResourcePackPrivacyClient.isBroadcastDownloads()){
+            ChatAnnouncer.announce(Text.translatable("gui.resourcepackprivacy.downloading",
+                            Text.literal(url.toString()))
+                    .withColor(Color.ORANGE.getRGB())
+            );
+        }
     }
 }

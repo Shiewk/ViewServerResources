@@ -14,6 +14,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.MinecraftClient;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.URL;
@@ -23,6 +24,7 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
 
     private static final ObjectArrayList<String> whitelistedURLs = new ObjectArrayList<>();
     private static final ObjectArrayList<String> whitelistedHosts = new ObjectArrayList<>();
+    private static boolean broadcastDownloads = true;
     private static File whitelistFile;
     private static final Gson gson = new Gson();
 
@@ -68,6 +70,8 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
             for (JsonElement whitelistURL : whitelistURLs) {
                 whitelistedURLs.add(whitelistURL.getAsString());
             }
+            final JsonElement bdl = cfg.get("broadcastDownloads");
+            broadcastDownloads = bdl == null || !bdl.isJsonPrimitive() || bdl.getAsBoolean();
         } catch (FileNotFoundException e) {
             ResourcePackPrivacy.LOGGER.warn("Config file not found");
         } catch (IOException e) {
@@ -78,29 +82,36 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
     public static void saveConfig() {
         ResourcePackPrivacy.LOGGER.info("Saving config");
         try (FileWriter fw = new FileWriter(whitelistFile)) {
-            JsonObject cfg = new JsonObject();
-            JsonObject whitelist = new JsonObject();
-
-            JsonArray hosts = new JsonArray();
-            for (String whitelistedHost : whitelistedHosts) {
-                hosts.add(whitelistedHost);
-            }
-            whitelist.add("hosts", hosts);
-
-            JsonArray urls = new JsonArray();
-            for (String whitelistedURL : whitelistedURLs) {
-                urls.add(whitelistedURL);
-            }
-            whitelist.add("urls", urls);
-
-            cfg.add("whitelist", whitelist);
+            final JsonObject cfg = getConfigObject();
 
             try (JsonWriter jsonWriter = new JsonWriter(fw)) {
                 Streams.write(cfg, jsonWriter);
             }
+
         } catch (IOException e) {
             ResourcePackPrivacy.logThrowable(e);
         }
+    }
+
+    private static @NotNull JsonObject getConfigObject() {
+        JsonObject cfg = new JsonObject();
+        JsonObject whitelist = new JsonObject();
+
+        JsonArray hosts = new JsonArray();
+        for (String whitelistedHost : whitelistedHosts) {
+            hosts.add(whitelistedHost);
+        }
+        whitelist.add("hosts", hosts);
+
+        JsonArray urls = new JsonArray();
+        for (String whitelistedURL : whitelistedURLs) {
+            urls.add(whitelistedURL);
+        }
+        whitelist.add("urls", urls);
+
+        cfg.add("whitelist", whitelist);
+        cfg.addProperty("broadcastDownloads", broadcastDownloads);
+        return cfg;
     }
 
     public static List<String> getWhitelistedURLs() {
@@ -109,6 +120,14 @@ public class ResourcePackPrivacyClient implements ClientModInitializer {
 
     public static List<String> getWhitelistedHosts() {
         return whitelistedHosts;
+    }
+
+    public static boolean isBroadcastDownloads() {
+        return broadcastDownloads;
+    }
+
+    public static void setBroadcastDownloads(boolean broadcastDownloads) {
+        ResourcePackPrivacyClient.broadcastDownloads = broadcastDownloads;
     }
 
     @Override

@@ -13,5 +13,6 @@
   "gui.resourcepackprivacy.config": "Config",
   "resourcepackprivacy.settings": "ResourcePackPrivacy Settings",
   "resourcepackprivacy.settings.whitelistedURLs": "Manage allowed URLs",
-  "resourcepackprivacy.settings.whitelistedHosts": "Manage allowed pack hosts"
+  "resourcepackprivacy.settings.whitelistedHosts": "Manage allowed pack hosts",
+  "resourcepackprivacy.settings.broadcast": "Show downloaded pack URLs in chat: %s"
 }
