@@ -11,7 +11,7 @@ public class ChatAnnouncer implements ClientTickEvents.EndTick {
     @Override
     public void onEndTick(MinecraftClient client) {
         if (client.player != null && !queue.isEmpty()){
-            client.player.sendMessage(queue.removeFirst());
+            client.player.sendMessage(queue.removeFirst(), false);
         }
     }
 
