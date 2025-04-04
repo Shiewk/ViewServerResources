@@ -23,6 +23,6 @@ public class ManageListScreen<T> extends Screen {
 
     @Override
     protected void init() {
-        addDrawableChild(new ManageListWidget<T>(textRenderer, 0, 0, width-8, height, title, list));
+        addDrawableChild(new ManageListWidget<>(textRenderer, 0, 0, width, height, title, list));
     }
 }

@@ -29,19 +29,19 @@ public class ManageListWidget<T> extends ScrollableWidget {
             yp += 4;
             final TextWidget tw = new TextWidget(Text.literal(t.toString()), renderer);
             tw.setHeight(20);
-            tw.setPosition((width - 28) / 2 - (tw.getWidth() / 2), yp);
+            tw.setPosition((width - 34) / 2 - (tw.getWidth() / 2), yp);
             elements.add(tw);
             elements.add(new ButtonWidget.Builder(Text.literal("x"), btn -> {
                 btn.active = false;
                 list.remove(t);
                 refreshElements(renderer);
-            }).width(20).position(width - 24, yp).build());
+            }).width(20).position(width - 30, yp).build());
             yp += 20;
         }
     }
 
     @Override
-    protected int getContentsHeight() {
+    protected int getContentsHeightWithPadding() {
         return list.size() * 24;
     }
 
@@ -51,11 +51,15 @@ public class ManageListWidget<T> extends ScrollableWidget {
     }
 
     @Override
-    protected void renderContents(DrawContext context, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         mouseY += (int) getScrollY();
+        context.getMatrices().push();
+        context.getMatrices().translate(0, -getScrollY(), 0);
         for (ClickableWidget element : elements) {
             element.render(context, mouseX, mouseY, delta);
         }
+        context.getMatrices().pop();
+        drawScrollbar(context);
     }
 
     @Override
@@ -65,17 +69,13 @@ public class ManageListWidget<T> extends ScrollableWidget {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        mouseY += getScrollY();
+        double mouseYScrolled = mouseY + getScrollY();
         for (ClickableWidget element : elements) {
-            if (element.isMouseOver(mouseX, mouseY)){
-                return element.mouseClicked(mouseX, mouseY, button);
+            if (element.isMouseOver(mouseX, mouseYScrolled)){
+                return element.mouseClicked(mouseX, mouseYScrolled, button);
             }
         }
-        return false;
-    }
-
-    @Override
-    protected void drawBox(DrawContext context, int x, int y, int width, int height) {
-
+        if (super.checkScrollbarDragged(mouseX, mouseY, button)) return true;
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 }
