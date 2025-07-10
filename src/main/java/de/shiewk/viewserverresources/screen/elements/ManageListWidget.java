@@ -9,6 +9,7 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ScrollableWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
+import org.joml.Matrix3x2fStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +54,13 @@ public class ManageListWidget<T> extends ScrollableWidget {
     @Override
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         mouseY += (int) getScrollY();
-        context.getMatrices().push();
-        context.getMatrices().translate(0, -getScrollY(), 0);
+        Matrix3x2fStack matrices = context.getMatrices();
+        matrices.pushMatrix();
+        matrices.translate(0, (float) -getScrollY());
         for (ClickableWidget element : elements) {
             element.render(context, mouseX, mouseY, delta);
         }
-        context.getMatrices().pop();
+        matrices.popMatrix();
         drawScrollbar(context);
     }
 

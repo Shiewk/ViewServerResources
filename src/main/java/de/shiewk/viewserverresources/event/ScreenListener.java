@@ -34,6 +34,8 @@ public class ScreenListener implements ScreenEvents.AfterInit {
     public void afterInit(MinecraftClient client, Screen screen, int scaledWidth, int scaledHeight) {
         if (screen instanceof ConfirmScreen && screen.getClass().getEnclosingClass() == ClientCommonNetworkHandler.class){
             GridWidget gw = new GridWidget();
+            gw.getMainPositioner().alignHorizontalCenter();
+            gw.getMainPositioner().alignBottom();
             gw.getMainPositioner().margin(4, 4, 4, 0);
             final GridWidget.Adder adder = gw.createAdder(2);
 
@@ -41,8 +43,19 @@ public class ScreenListener implements ScreenEvents.AfterInit {
 
             final List<PackInfo> infos = getPackInfos((AccessorConfirmServerResourcePackScreen) screen);
 
-            while (!buttons.isEmpty()){
-                adder.add(buttons.removeFirst());
+            // Really hacky method
+            ClickableWidget[] widgets = buttons.stream().filter(b -> b instanceof ButtonWidget).toList().toArray(ClickableWidget[]::new);
+
+            // Proceed button
+            buttons.remove(widgets[0]);
+            adder.add(widgets[0]);
+
+            // Reject button
+            buttons.remove(widgets[1]);
+            adder.add(widgets[1]);
+
+            for (int i = 2; i < widgets.length; i++) {
+                buttons.remove(widgets[i]);
             }
 
             adder.add(createButton(Text.translatable(infos.size() == 1 ? "gui.viewserverresources.viewURL" : "gui.viewserverresources.viewURLs"), btn -> viewURLs(client, screen, infos)));
