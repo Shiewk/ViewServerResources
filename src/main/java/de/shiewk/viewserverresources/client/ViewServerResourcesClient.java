@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonWriter;
-import de.shiewk.viewserverresources.ViewServerResourcesMod;
 import de.shiewk.viewserverresources.event.ChatAnnouncer;
 import de.shiewk.viewserverresources.event.ScreenListener;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -20,6 +19,8 @@ import java.io.*;
 import java.net.URL;
 import java.util.List;
 
+import static de.shiewk.viewserverresources.ViewServerResourcesMod.LOGGER;
+
 public class ViewServerResourcesClient implements ClientModInitializer {
 
     private static final ObjectArrayList<String> whitelistedURLs = new ObjectArrayList<>();
@@ -30,10 +31,12 @@ public class ViewServerResourcesClient implements ClientModInitializer {
 
     public static boolean allowedURL(URL uRL) {
         if (whitelistedURLs.contains(uRL.toString())){
-            ViewServerResourcesMod.LOGGER.info("URL {} is whitelisted", uRL);
+            if (LOGGER.isDebugEnabled())
+                LOGGER.debug("URL {} is whitelisted", uRL);
             return true;
         } else if (whitelistedHosts.contains(uRL.getHost())){
-            ViewServerResourcesMod.LOGGER.info("Host {} is whitelisted", uRL.getHost());
+            if (LOGGER.isDebugEnabled())
+                LOGGER.debug("Host {} is whitelisted", uRL.getHost());
             return true;
         }
         return false;
@@ -41,7 +44,7 @@ public class ViewServerResourcesClient implements ClientModInitializer {
 
     public static void addWhitelistURL(URL url){
         final String urls = url.toString();
-        ViewServerResourcesMod.LOGGER.info("Whitelist url {}", urls);
+        LOGGER.info("Whitelisting url {}", urls);
         if (!whitelistedURLs.contains(urls)){
             whitelistedURLs.add(urls);
         }
@@ -49,14 +52,14 @@ public class ViewServerResourcesClient implements ClientModInitializer {
 
     public static void addWhitelistHost(URL url){
         final String h = url.getHost();
-        ViewServerResourcesMod.LOGGER.info("Whitelist host {}", h);
+        LOGGER.info("Whitelisting host {}", h);
         if (!whitelistedHosts.contains(h)){
             whitelistedHosts.add(h);
         }
     }
 
     public static void loadConfig(){
-        ViewServerResourcesMod.LOGGER.info("Loading config");
+        LOGGER.info("Loading config");
         try (FileReader fr = new FileReader(whitelistFile)){
             final JsonObject cfg = gson.fromJson(fr, JsonObject.class);
             final JsonObject whitelist = cfg.get("whitelist").getAsJsonObject();
@@ -73,14 +76,14 @@ public class ViewServerResourcesClient implements ClientModInitializer {
             final JsonElement bdl = cfg.get("broadcastDownloads");
             broadcastDownloads = bdl == null || !bdl.isJsonPrimitive() || bdl.getAsBoolean();
         } catch (FileNotFoundException e) {
-            ViewServerResourcesMod.LOGGER.warn("Config file not found");
+            LOGGER.warn("Config file not found");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void saveConfig() {
-        ViewServerResourcesMod.LOGGER.info("Saving config");
+        LOGGER.info("Saving config");
         try (FileWriter fw = new FileWriter(whitelistFile)) {
             final JsonObject cfg = getConfigObject();
 
@@ -89,7 +92,7 @@ public class ViewServerResourcesClient implements ClientModInitializer {
             }
 
         } catch (IOException e) {
-            ViewServerResourcesMod.logThrowable(e);
+            LOGGER.error("Error saving config", e);
         }
     }
 
