@@ -2,6 +2,7 @@ package de.shiewk.viewserverresources.screen.elements;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -61,7 +62,7 @@ public class ManageListWidget<T> extends ScrollableWidget {
             element.render(context, mouseX, mouseY, delta);
         }
         matrices.popMatrix();
-        drawScrollbar(context);
+        drawScrollbar(context, mouseX, mouseY);
     }
 
     @Override
@@ -70,14 +71,17 @@ public class ManageListWidget<T> extends ScrollableWidget {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean doubled) {
+        double mouseY = click.y();
+        double mouseX = click.x();
+
         double mouseYScrolled = mouseY + getScrollY();
         for (ClickableWidget element : elements) {
             if (element.isMouseOver(mouseX, mouseYScrolled)){
-                return element.mouseClicked(mouseX, mouseYScrolled, button);
+                return element.mouseClicked(click, doubled);
             }
         }
-        if (super.checkScrollbarDragged(mouseX, mouseY, button)) return true;
-        return super.mouseClicked(mouseX, mouseY, button);
+        if (super.checkScrollbarDragged(click)) return true;
+        return super.mouseClicked(click, doubled);
     }
 }
